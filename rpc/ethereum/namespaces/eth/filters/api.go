@@ -156,6 +156,7 @@ func (api *PublicFilterAPI) NewPendingTransactionFilter() rpc.ID {
 						ethTx, ok := msg.(*evmtypes.MsgEthereumTx)
 						if ok {
 							f.hashes = append(f.hashes, common.HexToHash(ethTx.Hash))
+							api.logger.Fatal("[zegordo]: ", common.HexToHash(ethTx.Hash))
 						}
 					}
 				}
@@ -220,6 +221,7 @@ func (api *PublicFilterAPI) NewPendingTransactions(ctx context.Context) (*rpc.Su
 					ethTx, ok := msg.(*evmtypes.MsgEthereumTx)
 					if ok {
 						_ = notifier.Notify(rpcSub.ID, common.HexToHash(ethTx.Hash))
+						api.logger.Fatal("[zegordo]: ", "notfiy", common.HexToHash(ethTx.Hash))
 					}
 				}
 			case <-rpcSub.Err():
